@@ -1,7 +1,5 @@
 package transfer.tap.criterion;
 
-import transfer.graph.base.Graph;
-
 public class IterationCriterion implements AbstractCriterion{
 	
 	private final int iterationLimit;
@@ -15,7 +13,7 @@ public class IterationCriterion implements AbstractCriterion{
 	}
 	
 	@Override
-	public boolean check(Graph graph) {
+	public boolean check() {
 		if (debug) {
 			System.out.println("Iteration limit: " + (iteration + 1) + "/" + iterationLimit);
 		}

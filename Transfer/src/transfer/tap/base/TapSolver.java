@@ -9,7 +9,7 @@ public abstract class TapSolver {
 	
 	public void solve(Graph graph, Demand[] demands, AbstractCriterion criterion) {
 		init();
-		while (criterion.check(graph)) {
+		while (criterion.check()) {
 			iteration();
 		}
 	}
