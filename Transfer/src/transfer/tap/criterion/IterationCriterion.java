@@ -15,7 +15,7 @@ public class IterationCriterion implements AbstractCriterion{
 	@Override
 	public boolean check() {
 		if (debug) {
-			System.out.println("Iteration limit: " + (iteration + 1) + "/" + iterationLimit);
+			System.out.println("Iteration limit: " + (iteration + 0) + "/" + iterationLimit + " -> " + (iteration < iterationLimit));
 		}
 		return (iteration++) < iterationLimit;
 	}
