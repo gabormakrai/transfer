@@ -7,7 +7,12 @@ public abstract class TapSolver {
 	protected Graph graph;
 	protected Demand[] demands;
 	
-	public void solve(Graph graph, Demand[] demands, AbstractCriterion criterion) {
+	protected TapSolver(Graph graph, Demand[] demands) {
+		this.graph = graph;
+		this.demands = demands;
+	}
+	
+	public void solve(AbstractCriterion criterion) {
 		init();
 		while (criterion.check()) {
 			iteration();
