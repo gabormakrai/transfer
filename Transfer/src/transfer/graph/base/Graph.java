@@ -53,17 +53,7 @@ public class Graph {
 			}
 		}
 	}
-	
-	public void resetTrafficOnArcs() {
-		for (int i = 0; i < arcs.length; ++i) {
-			if (arcs[i] != null) {
-				for (int j = 0; j < arcs[i].length; ++j) {
-					arcs[i][j].traffic = 0.0;
-				}
-			}
-		}
-	}
-	
+		
 	public int getLargestArcId() {
 		return largestArcId;
 	}
