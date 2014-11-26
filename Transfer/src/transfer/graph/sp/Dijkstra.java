@@ -4,14 +4,15 @@ import java.util.HashSet;
 import java.util.LinkedList;
 
 import transfer.graph.base.Arc;
+import transfer.graph.base.Graph;
 
 public class Dijkstra {
 			
-	public static void createPreviousArray(int[][] neighbours, int[][] arcs, double[][] weights, int source, double[] distance, int[] previous) {
+	public static void createPreviousArray(Graph graph, double[][] weights, int source, double[] distance, int[] previous) {
 		
-		int largestVertexId = neighbours.length;
+		int largestNodeId = graph.getLargestNodeId();
 		
-		for (int i = 0; i < largestVertexId; ++i) {
+		for (int i = 0; i < largestNodeId + 1; ++i) {
 			distance[i] = Double.MAX_VALUE;
 			previous[i] = -1;
 		}
@@ -19,7 +20,7 @@ public class Dijkstra {
 		distance[source] = 0.0;
 		
 		HashSet<Integer> verticies = new HashSet<Integer>();
-		for (int i = 0; i < largestVertexId; ++i) {
+		for (int i = 0; i < largestNodeId + 1; ++i) {
 			verticies.add(i);
 		}
 		
@@ -41,35 +42,35 @@ public class Dijkstra {
 			verticies.remove(u);
 			// find the neighbours
 			
-			if (neighbours[u] == null) {
+			if (graph.arcs[u] == null) {
 				continue;
 			}
 			
-			for (int i = 0; i < neighbours[u].length; ++i) {
+			for (int i = 0; i < graph.arcs[u].length; ++i) {
 				double alt = distance[u] + weights[u][i];
-				if (alt < distance[neighbours[u][i]]) {
-					distance[neighbours[u][i]] = alt;
-					previous[neighbours[u][i]] = arcs[u][i];
+				if (alt < distance[graph.arcs[u][i].to]) {
+					distance[graph.arcs[u][i].to] = alt;
+					previous[graph.arcs[u][i].to] = graph.arcs[u][i].id;
 				}
 			}
 		}
 	}
 	
-	public static int[] findShortestPath(Arc[] arcArray, int[][] edges, int[] previous, int target) {
+	public static Arc[] findShortestPath(Graph graph, int[] previous, int target) {
 		if (previous[target] == -1) {
 			return null;
 		}
 		
-		LinkedList<Integer> reversedRoute = new LinkedList<>();
+		LinkedList<Arc> reversedRoute = new LinkedList<>();
 		int arcId = previous[target];
 		
 		while (arcId != -1) {
-			reversedRoute.add(arcId);
-			Arc arc = arcArray[arcId];
+			reversedRoute.add(graph.arcArray[arcId]);
+			Arc arc = graph.arcArray[arcId];
 			arcId = previous[arc.from];
 		}
 		
-		int[] route = new int[reversedRoute.size()];
+		Arc[] route = new Arc[reversedRoute.size()];
 		for (int i = 0; i < route.length; ++i) {
 			route[i] = reversedRoute.get(route.length - 1 - i);
 		}
