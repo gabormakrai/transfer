@@ -118,6 +118,10 @@ public class FrankWolfeTap extends TapSolver {
 			A += travelTime(trafficVolume, freeFlowTravelTime, linkCapacity) * d[i];
 			B += travelTimeDerivative(trafficVolume, freeFlowTravelTime, linkCapacity) * Math.pow(d[i], 2.0);
 		}
+		
+		if (Math.abs(B) < 0.0000000001) {
+			return;
+		}
 				
 		alpha = -1.0 * A / B;
 				
