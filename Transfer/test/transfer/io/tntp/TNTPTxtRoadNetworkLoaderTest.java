@@ -1,5 +1,4 @@
-package transfer.io;
-
+package transfer.io.tntp;
 
 import static org.junit.Assert.*;
 
@@ -7,7 +6,7 @@ import org.junit.Test;
 
 import transfer.graph.base.Graph;
 
-public class TNTPRoadNetworkLoaderTest {
+public class TNTPTxtRoadNetworkLoaderTest {
 	
 	private String getDataDirectory() {
 		String dataDirectory = System.getProperty("DataDirectory");
@@ -18,7 +17,7 @@ public class TNTPRoadNetworkLoaderTest {
 	
 	@Test
 	public void chichagoTest() {
-		Graph graph = new TNTPRoadNetworkLoader().loadFromFile(getDataDirectory() + "chicagoregional_net.txt");
+		Graph graph = new TNTPTxtRoadNetworkLoader().loadFromFile(getDataDirectory() + "chicagoregional_net.txt");
 		assertEquals(graph.arcArray.length, 39018);
 	}
 	

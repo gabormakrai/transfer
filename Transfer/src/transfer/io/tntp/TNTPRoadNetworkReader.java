@@ -1,17 +1,17 @@
-package transfer.io;
+package transfer.io.tntp;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.LinkedList;
 
 import transfer.graph.base.Arc;
 import transfer.graph.base.Graph;
 
-public class TNTPRoadNetworkLoader implements AbstractRoadNetworkLoader {
-	@Override
-	public Graph loadFromFile(String fileName) {
+public class TNTPRoadNetworkReader {
+	
+	protected Graph loadRoadNetworkFromStream(InputStream inputStream) {
 		
 		LinkedList<Arc> arcsList = new LinkedList<>();
 		
@@ -22,7 +22,7 @@ public class TNTPRoadNetworkLoader implements AbstractRoadNetworkLoader {
 		int numberOfLinks = 0;
 		
 		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileName)));
+			BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
 			String line = "";
 			boolean header = true;
 			
@@ -69,6 +69,7 @@ public class TNTPRoadNetworkLoader implements AbstractRoadNetworkLoader {
 			}
 			
 			br.close();
+			inputStream.close();
 			
 		} catch (IOException e) {
 			return null;
