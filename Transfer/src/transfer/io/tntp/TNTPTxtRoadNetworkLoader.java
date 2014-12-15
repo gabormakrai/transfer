@@ -16,7 +16,7 @@ public class TNTPTxtRoadNetworkLoader extends TNTPRoadNetworkReader implements A
 		try {
 			graph = loadRoadNetworkFromStream(new FileInputStream(fileName));
 		} catch (IOException e) {
-			// problem
+			throw new RuntimeException("Problem during parsing the road network...", e);
 		}
 		
 		return graph;

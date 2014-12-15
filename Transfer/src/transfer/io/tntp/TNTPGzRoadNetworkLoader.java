@@ -17,7 +17,7 @@ public class TNTPGzRoadNetworkLoader extends TNTPRoadNetworkReader implements Ab
 		try {
 			graph = loadRoadNetworkFromStream(new GZIPInputStream(new FileInputStream(fileName)));
 		} catch (IOException e) {
-			// problem
+			throw new RuntimeException("Problem during parsing the road network...", e);
 		}
 		
 		return graph;
