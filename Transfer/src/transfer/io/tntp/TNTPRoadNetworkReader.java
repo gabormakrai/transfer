@@ -56,10 +56,10 @@ public class TNTPRoadNetworkReader {
 				} else if (!header && line.length() > 0) {
 					String[] splittedLine = line.split("\\\t");
 					try {
-						int from = Integer.parseInt(splittedLine[0]);
-						int to = Integer.parseInt(splittedLine[1]);
-						double linkCapacity = Double.parseDouble(splittedLine[2]);
-						double freeFlowTravelTime = Double.parseDouble(splittedLine[4]);
+						int from = Integer.parseInt(splittedLine[1]);
+						int to = Integer.parseInt(splittedLine[2]);
+						double linkCapacity = Double.parseDouble(splittedLine[3]);
+						double freeFlowTravelTime = Double.parseDouble(splittedLine[5]);
 						Arc arc = new Arc(arcsList.size(), from, to, freeFlowTravelTime, linkCapacity);
 						arcsList.add(arc);
 					} catch (NumberFormatException e) {
