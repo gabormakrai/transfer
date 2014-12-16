@@ -5,8 +5,9 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import transfer.graph.base.Graph;
+import transfer.tap.base.Demand;
 
-public class ChichagoSketchDataLoaderTest {
+public class ChicagoSketchDataLoaderTest {
 
 	private String getDataDirectory() {
 		String dataDirectory = System.getProperty("DataDirectory");
@@ -32,6 +33,17 @@ public class ChichagoSketchDataLoaderTest {
 	@Test
 	public void testDemandLoader() {
 		TNTPGzDemandLoader demandLoader = new TNTPGzDemandLoader();
-		demandLoader.loadFromFile(getDataDirectory() + "chicagosketch_trips.txt.gz");
+		Demand[] demands = demandLoader.loadFromFile(getDataDirectory() + "chicagosketch_trips.txt.gz");
+		assertTrue(demands != null);
+		assertEquals(142890, demands.length);
+		assertEquals(1, demands[0].fromId);
+		assertEquals(1, demands[0].toId);
+		assertEquals(273.18, demands[0].volume, 0.0000001);
+		assertEquals(189, demands[71445].fromId);
+		assertEquals(241, demands[71445].toId);
+		assertEquals(0.01, demands[71445].volume, 0.0000001);
+		assertEquals(387, demands[142879].fromId);
+		assertEquals(356, demands[142879].toId);
+		assertEquals(8.0, demands[142879].volume, 0.0000001);
 	}
 }
