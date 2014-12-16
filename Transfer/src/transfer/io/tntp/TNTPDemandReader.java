@@ -32,8 +32,8 @@ public class TNTPDemandReader {
 					String[] splittedLine = line.split("\\ ");
 					numberOfZones = Integer.parseInt(splittedLine[3].replace("\t", ""));
 				} else if (header && line.contains("<TOTAL OD FLOW>")) {
-					String[] splittedLine = line.split("\\ ");
-					totalODFlows = Double.parseDouble(splittedLine[3].replace("\t", ""));
+					String totalODFlowString = line.substring(15).trim();
+					totalODFlows = Double.parseDouble(totalODFlowString);
 				} else if (!header && line.length() > 0) {
 					if (line.startsWith("Origin")) {
 						String[] splittedLine = line.split("\\ ");
