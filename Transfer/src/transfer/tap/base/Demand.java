@@ -10,4 +10,9 @@ public class Demand {
 		this.toId = toId;
 		this.volume = volume;
 	}
+	
+	@Override
+	public String toString() {
+		return "Demand(to:" + toId + ",from:" + fromId + ",volume:" + volume + ")";
+	}
 }
