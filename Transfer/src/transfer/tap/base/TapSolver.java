@@ -3,23 +3,22 @@ package transfer.tap.base;
 import transfer.graph.base.Graph;
 import transfer.tap.criterion.AbstractCriterion;
 
-public abstract class TapSolver {
-	protected Graph graph;
-	protected Demand[] demands;
+public class TapSolver {
+	private Graph graph;
+	private Demand[] demands;
+	private TapAlgorithm tapAlgorithm;
 	
-	protected TapSolver(Graph graph, Demand[] demands) {
+	public TapSolver(Graph graph, Demand[] demands, TapAlgorithm tapAlgorithm) {
 		this.graph = graph;
 		this.demands = demands;
+		this.tapAlgorithm = tapAlgorithm;
 	}
 	
 	public void solve(AbstractCriterion criterion) {
-		init();
+		tapAlgorithm.init(graph, demands);
 		while (criterion.check()) {
-			iteration();
+			tapAlgorithm.iteration();
 		}
 	}
 	
-	protected abstract void init();
-	
-	protected abstract void iteration();
 }

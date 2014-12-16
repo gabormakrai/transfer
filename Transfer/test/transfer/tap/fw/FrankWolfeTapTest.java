@@ -7,6 +7,7 @@ import org.junit.Test;
 import transfer.graph.base.Arc;
 import transfer.graph.base.Graph;
 import transfer.tap.base.Demand;
+import transfer.tap.base.TapSolver;
 import transfer.tap.criterion.IterationCriterion;
 
 public class FrankWolfeTapTest {
@@ -31,8 +32,9 @@ public class FrankWolfeTapTest {
 			new Demand(0, 7, 100.0)
 		};
 		
-		FrankWolfeTap tapSolver = new FrankWolfeTap(graph, demands);
-		tapSolver.solve(new IterationCriterion(100, true));
+		FrankWolfeTap algorithm = new FrankWolfeTap();
+		TapSolver solver = new TapSolver(graph, demands, algorithm);
+		solver.solve(new IterationCriterion(100, true));
 				
 		assertEquals(200, arcArray[0].traffic, 0.000001);
 		assertEquals(100, arcArray[1].traffic, 0.000001);

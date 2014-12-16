@@ -4,14 +4,13 @@ import transfer.graph.base.Arc;
 import transfer.graph.base.Graph;
 import transfer.graph.sp.Dijkstra;
 import transfer.tap.base.Demand;
-import transfer.tap.base.TapSolver;
+import transfer.tap.base.TapAlgorithm;
 
-public class FrankWolfeTap extends TapSolver {
+public class FrankWolfeTap implements TapAlgorithm {
+		
+	private Graph graph;
+	private Demand[] demands;
 	
-	public FrankWolfeTap(Graph graph, Demand[] demands) {
-		super(graph, demands);
-	}
-
 	private double[] y;
 	
 	private double[] d;
@@ -22,7 +21,10 @@ public class FrankWolfeTap extends TapSolver {
 	private int[] previous;
 			
 	@Override
-	protected void init() {
+	public void init(Graph graph, Demand[] demands) {
+		
+		this.graph = graph;
+		this.demands = demands;
 		
 		int largestArcId = graph.getLargestArcId();
 		
@@ -52,7 +54,7 @@ public class FrankWolfeTap extends TapSolver {
 	}
 	
 	@Override
-	protected void iteration() {
+	public void iteration() {
 		iteration(false);
 	}
 	
@@ -145,4 +147,5 @@ public class FrankWolfeTap extends TapSolver {
 	private double travelTimeDerivative(double trafficVolume, double freeFlowTravelTime, double capacity) {
 		return 0.6 * freeFlowTravelTime * Math.pow(1.0 / capacity, 4.0) * Math.pow(trafficVolume, 3.0);
 	}
+
 }
