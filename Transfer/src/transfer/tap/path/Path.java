@@ -21,4 +21,15 @@ public class Path {
 	public String toString() {
 		return "Path(volume:" + volume + ",arcs:" + Arrays.toString(arcs) + ")";
 	}
+	public boolean isSameArcs(Arc[] arcs) {
+		if (this.arcs.length != arcs.length) {
+			return false;
+		}
+		for (int i = 0; i < arcs.length; ++i) {
+			if (this.arcs[i].id != arcs[i].id) {
+				return false;
+			}
+		}
+		return true;
+	}
 }
