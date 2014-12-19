@@ -27,6 +27,10 @@ public abstract class PathBasedTap implements TapAlgorithm {
 		for (int i = 0; i < odPaths.length; ++i) {
 			odPaths[i] = new ODPaths(demands[i].fromId, demands[i].toId);
 		}
+		
+		int largestNodeId = graph.getLargestNodeId();
+		previous = new int[largestNodeId + 1];
+		distance = new double[largestNodeId + 1];
 
 		travelTime = new double[graph.arcs.length][];
 		
@@ -63,7 +67,7 @@ public abstract class PathBasedTap implements TapAlgorithm {
 				continue;
 			}
 
-			shiftFlow(odPaths[i], shortestPath);
+			shiftFlow(odPaths[i], shortestPath, demand);
 		}
 		
 		// pushing back the flows from paths to the whole graph
@@ -85,10 +89,11 @@ public abstract class PathBasedTap implements TapAlgorithm {
 			for (int j = 0; j < graph.arcs[i].length; ++j) {
 				travelTime[i][j] = travelTime(graph.arcs[i][j].traffic, graph.arcs[i][j].freeFlowTravelTime, graph.arcs[i][j].linkCapacity);
 			}
-		}	
+		}
+				
 	}
 	
-	protected abstract void shiftFlow(ODPaths odpaths, Arc[] newPath);
+	protected abstract void shiftFlow(ODPaths odpaths, Arc[] newPath, Demand demand);
 	
 	private double travelTime(double trafficVolume, double freeFlowTravelTime, double capacity) {
 		return freeFlowTravelTime * (1.0 + 0.15 * Math.pow(trafficVolume / capacity, 4.0));
