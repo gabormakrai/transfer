@@ -64,6 +64,8 @@ public class TNTPRoadNetworkReader {
 						arcsList.add(arc);
 					} catch (NumberFormatException e) {
 						System.out.println("Uncompatible line: '" + line + "'");
+					} catch (ArrayIndexOutOfBoundsException e) {
+						System.out.println("Uncompatible line: '" + line + "'");
 					}
 				}
 			}
