@@ -39,7 +39,7 @@ public class TNTPDemandReader {
 						String[] splittedLine = line.split("\\ ");
 						for (int i = 1; i < splittedLine.length; ++i) {
 							try {
-								zone = Integer.parseInt(splittedLine[i]);
+								zone = Integer.parseInt(splittedLine[i].replace("\t", ""));
 								break;
 							} catch (NumberFormatException e) {
 								// do nothing: it is expected
