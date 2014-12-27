@@ -14,4 +14,9 @@ public class Arc {
 		this.freeFlowTravelTime = freeFlowTravelTime;
 		this.linkCapacity = linkCapacity;
 	}
+	
+	@Override
+	public String toString() {
+		return "Arc(id:" + id + ",from:" + from + ",to:" + to + ",traffic:" + traffic +")";
+	}
 }
