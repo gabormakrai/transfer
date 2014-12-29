@@ -6,6 +6,12 @@ import transfer.graph.base.Arc;
 import transfer.tap.base.Demand;
 
 public class PathEquilibriumTap extends PathBasedTap {
+	
+	private double alpha = 0.0;
+	
+	public PathEquilibriumTap(double alpha) {
+		this.alpha = alpha;
+	}
 
 	@Override
 	protected void shiftFlow(ODPaths odPaths, Arc[] newPath, Demand demand) {
@@ -55,11 +61,20 @@ public class PathEquilibriumTap extends PathBasedTap {
 		for (Arc arc : newPath) {
 			shortestPathArcs.add(arc.id);
 		}
+		HashSet<Integer> longestPathArcs = new HashSet<>();
+		for (Arc arc : longestPath.arcs) {
+			longestPathArcs.add(arc.id);
+		}
 		
 		double A = longestPathTravelTime - shortestTravelTime;
 		double B = 0.0;
 		for (Arc arc : longestPath.arcs) {
-			if (shortestPathArcs.contains(arc.id)) {
+			if (!shortestPathArcs.contains(arc.id)) {
+				B += travelTimeDerivative(arc.traffic, arc.freeFlowTravelTime, arc.linkCapacity);
+			}
+		}
+		for (Arc arc : shortestPath.arcs) {
+			if (!longestPathArcs.contains(arc.id)) {
 				B += travelTimeDerivative(arc.traffic, arc.freeFlowTravelTime, arc.linkCapacity);
 			}
 		}
@@ -71,8 +86,10 @@ public class PathEquilibriumTap extends PathBasedTap {
 			delta = A / B;
 		}
 		
+		delta *= alpha;
+		
 		if (delta > longestPath.volume) {
-			shortestPath.volume = longestPath.volume;
+			shortestPath.volume += longestPath.volume;
 			odPaths.paths.remove(longestPath);
 		} else {
 			shortestPath.volume += delta;

@@ -48,7 +48,15 @@ public abstract class PathBasedTap implements TapAlgorithm {
 	
 	@Override
 	public void iteration() {
-
+//		
+//		double pathVolume = 0.0;
+//		for (ODPaths paths : odPaths) {
+//			for (Path path : paths.paths) {
+//				pathVolume += path.volume;
+//			}
+//		}
+//		System.out.println("Before#PathVolume: " + pathVolume);
+//		
 		int currentSourceId = -1;
 		
 		// AON traffic assignment
@@ -90,7 +98,17 @@ public abstract class PathBasedTap implements TapAlgorithm {
 				travelTime[i][j] = travelTime(graph.arcs[i][j].traffic, graph.arcs[i][j].freeFlowTravelTime, graph.arcs[i][j].linkCapacity);
 			}
 		}
-				
+
+//		int pathSize = 0;
+//		pathVolume = 0.0;
+//		for (ODPaths paths : odPaths) {
+//			pathSize += paths.paths.size();
+//			for (Path path : paths.paths) {
+//				pathVolume += path.volume;
+//			}
+//		}
+//		System.out.println("#Path: " + pathSize);
+//		System.out.println("#PathVolume: " + pathVolume);
 	}
 	
 	protected abstract void shiftFlow(ODPaths odpaths, Arc[] newPath, Demand demand);

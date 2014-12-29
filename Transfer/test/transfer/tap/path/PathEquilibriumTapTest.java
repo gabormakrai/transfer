@@ -15,7 +15,7 @@ public class PathEquilibriumTapTest extends TapTest{
 		Graph graph = generateGraph();
 		Demand[] demands = generateDemands();
 		
-		PathEquilibriumTap algorithm = new PathEquilibriumTap();
+		PathEquilibriumTap algorithm = new PathEquilibriumTap(0.1);
 		TapSolver solver = new TapSolver(graph, demands, algorithm);
 		solver.solve(new IterationCriterion(100, true));
 				
