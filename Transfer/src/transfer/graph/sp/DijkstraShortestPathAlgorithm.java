@@ -6,9 +6,33 @@ import java.util.LinkedList;
 import transfer.graph.base.Arc;
 import transfer.graph.base.Graph;
 
-public class Dijkstra {
-			
-	public static void createPreviousArray(Graph graph, double[][] weights, int source, double[] distance, int[] previous) {
+public class DijkstraShortestPathAlgorithm implements ShortestPathAlgorithm {
+	
+	int previousFromId;
+	int[] previous;
+	double[] distance;
+
+	@Override
+	public void init(Graph graph) {
+		previousFromId = -1;
+		
+		int largestArcId = graph.getLargestArcId();
+		previous = new int[largestArcId + 1];
+		distance = new double[largestArcId + 1];
+
+	}
+
+	@Override
+	public Arc[] shortestPath(Graph graph, double[][] travelTime, int from, int to) {
+		
+		if (previousFromId != from) {
+			createPreviousArray(graph, travelTime, from, distance, previous);
+		}
+		
+		return findShortestPath(graph, previous, to);
+	}
+	
+	private void createPreviousArray(Graph graph, double[][] weights, int source, double[] distance, int[] previous) {
 		
 		int largestNodeId = graph.getLargestNodeId();
 		
@@ -56,7 +80,7 @@ public class Dijkstra {
 		}
 	}
 	
-	public static Arc[] findShortestPath(Graph graph, int[] previous, int target) {
+	private Arc[] findShortestPath(Graph graph, int[] previous, int target) {
 		if (previous[target] == -1) {
 			return null;
 		}
@@ -78,5 +102,5 @@ public class Dijkstra {
 		return route;
 	}
 	
-}
 
+}

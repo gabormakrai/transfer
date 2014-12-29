@@ -7,7 +7,7 @@ import org.junit.Test;
 import transfer.graph.base.Arc;
 import transfer.graph.base.Graph;
 
-public class DijkstraTest {
+public class DijkstraShortestPathAlgorithmTest {
 
 	@Test
 	public void testDijkstra1() {
@@ -29,13 +29,11 @@ public class DijkstraTest {
 			new double[] { 1.0 },
 			null			
 		};
+				
+		ShortestPathAlgorithm spAlgorithm = new DijkstraShortestPathAlgorithm();
+		spAlgorithm.init(graph);
 		
-		double[] distance = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0 };
-		int[] previous = new int[] { 0, 0, 0, 0, 0 };
-		
-		Dijkstra.createPreviousArray(graph, travelTime, 0, distance, previous);
-		
-		Arc[] shortestPath = Dijkstra.findShortestPath(graph, previous, 4);
+		Arc[] shortestPath = spAlgorithm.shortestPath(graph, travelTime, 0, 4);
 		
 		assertTrue(shortestPath != null);
 		assertEquals(3, shortestPath.length);

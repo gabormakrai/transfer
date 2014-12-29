@@ -2,7 +2,7 @@ package transfer.tap.criterion;
 
 import transfer.graph.base.Arc;
 import transfer.graph.base.Graph;
-import transfer.graph.sp.Dijkstra;
+import transfer.graph.sp.ShortestPathAlgorithm;
 import transfer.tap.base.Demand;
 
 public class RGapCriterion implements AbstractCriterion{
@@ -12,14 +12,14 @@ public class RGapCriterion implements AbstractCriterion{
 	private final Graph graph;
 	private final Demand[] demands;
 	private final double[][] travelTime;
-	private final double[] distance;
-	private final int[] previous;
+	private ShortestPathAlgorithm shortestPathAlgorithm;
 	
-	public RGapCriterion(Graph graph, Demand[] demands, double criterionLimit, boolean debug) {
+	public RGapCriterion(Graph graph, Demand[] demands, ShortestPathAlgorithm shortestPathAlgorithm, double criterionLimit, boolean debug) {
 		this.criterionLimit = criterionLimit;
 		this.debug = debug;
 		this.graph = graph;
 		this.demands = demands;
+		this.shortestPathAlgorithm = shortestPathAlgorithm;
 		
 		travelTime = new double[graph.arcs.length][];
 		for (int i = 0; i < graph.arcs.length; ++i) {
@@ -33,9 +33,6 @@ public class RGapCriterion implements AbstractCriterion{
 			}
 		}
 		
-		int largestNodeId = graph.getLargestNodeId();
-		previous = new int[largestNodeId + 1];
-		distance = new double[largestNodeId + 1];
 	}
 	
 	private void calculateTravelTimes() {
@@ -68,16 +65,10 @@ public class RGapCriterion implements AbstractCriterion{
 		calculateTravelTimes();
 		
 		double A = 0.0;
-		int currentSourceId = -1;
-		// AON traffic assignment
+		
 		for (Demand demand : demands) {
 			
-			if (currentSourceId == -1 || currentSourceId != demand.fromId) {
-				currentSourceId = demand.fromId;
-				Dijkstra.createPreviousArray(graph, travelTime, currentSourceId, distance, previous);
-			}
-			
-			Arc[] shortestPath = Dijkstra.findShortestPath(graph, previous, demand.toId);
+			Arc[] shortestPath = shortestPathAlgorithm.shortestPath(graph, travelTime, demand.fromId, demand.toId);
 			
 			if (shortestPath == null) {
 				continue;

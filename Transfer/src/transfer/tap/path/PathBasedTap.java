@@ -2,7 +2,7 @@ package transfer.tap.path;
 
 import transfer.graph.base.Arc;
 import transfer.graph.base.Graph;
-import transfer.graph.sp.Dijkstra;
+import transfer.graph.sp.ShortestPathAlgorithm;
 import transfer.tap.base.Demand;
 import transfer.tap.base.TapAlgorithm;
 
@@ -11,27 +11,22 @@ public abstract class PathBasedTap implements TapAlgorithm {
 	Graph graph;
 	ODPaths[] odPaths;
 	Demand[] demands;
-	
-	private double[] distance;
-	private int[] previous;
-	
+	ShortestPathAlgorithm shortestPathAlgorithm;
+		
 	private double[][] travelTime;
 	
 	@Override
-	public void init(Graph graph, Demand[] demands) {
+	public void init(Graph graph, Demand[] demands, ShortestPathAlgorithm shortestPathAlgorithm) {
 		
 		this.graph = graph;
 		this.demands = demands;
+		this.shortestPathAlgorithm = shortestPathAlgorithm;
 		
 		this.odPaths = new ODPaths[demands.length];
 		for (int i = 0; i < odPaths.length; ++i) {
 			odPaths[i] = new ODPaths(demands[i].fromId, demands[i].toId);
 		}
 		
-		int largestNodeId = graph.getLargestNodeId();
-		previous = new int[largestNodeId + 1];
-		distance = new double[largestNodeId + 1];
-
 		travelTime = new double[graph.arcs.length][];
 		
 		for (int i = 0; i < graph.arcs.length; ++i) {
@@ -57,19 +52,12 @@ public abstract class PathBasedTap implements TapAlgorithm {
 //		}
 //		System.out.println("Before#PathVolume: " + pathVolume);
 //		
-		int currentSourceId = -1;
-		
 		// AON traffic assignment
 		for (int i = 0; i < demands.length; ++i) {
 			
 			Demand demand = demands[i];
-			
-			if (currentSourceId == -1 || currentSourceId != demand.fromId) {
-				currentSourceId = demand.fromId;
-				Dijkstra.createPreviousArray(graph, travelTime, currentSourceId, distance, previous);
-			}
-			
-			Arc[] shortestPath = Dijkstra.findShortestPath(graph, previous, demand.toId);
+						
+			Arc[] shortestPath = shortestPathAlgorithm.shortestPath(graph, travelTime, demand.fromId, demand.toId);
 			
 			if (shortestPath == null) {
 				continue;

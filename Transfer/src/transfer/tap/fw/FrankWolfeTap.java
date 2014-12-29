@@ -2,7 +2,7 @@ package transfer.tap.fw;
 
 import transfer.graph.base.Arc;
 import transfer.graph.base.Graph;
-import transfer.graph.sp.Dijkstra;
+import transfer.graph.sp.ShortestPathAlgorithm;
 import transfer.tap.base.Demand;
 import transfer.tap.base.TapAlgorithm;
 
@@ -10,21 +10,20 @@ public class FrankWolfeTap implements TapAlgorithm {
 		
 	private Graph graph;
 	private Demand[] demands;
+	private ShortestPathAlgorithm shortestPathAlgorithm;
 	
 	private double[] y;
 	
 	private double[] d;
 	
 	private double[][] travelTime;
-	
-	private double[] distance;
-	private int[] previous;
-			
+				
 	@Override
-	public void init(Graph graph, Demand[] demands) {
+	public void init(Graph graph, Demand[] demands, ShortestPathAlgorithm shortestPathAlgorithm) {
 		
 		this.graph = graph;
 		this.demands = demands;
+		this.shortestPathAlgorithm = shortestPathAlgorithm;
 		
 		int largestArcId = graph.getLargestArcId();
 		
@@ -44,11 +43,7 @@ public class FrankWolfeTap implements TapAlgorithm {
 				}
 			}
 		}
-		
-		int largestNodeId = graph.getLargestNodeId();
-		previous = new int[largestNodeId + 1];
-		distance = new double[largestNodeId + 1];
-		
+				
 		// create the feasible initial solution
 		iteration(true);
 	}
@@ -65,17 +60,10 @@ public class FrankWolfeTap implements TapAlgorithm {
 			d[i] = 0.0;
 		}
 
-		int currentSourceId = -1;
-		
 		// AON traffic assignment
 		for (Demand demand : demands) {
 			
-			if (currentSourceId == -1 || currentSourceId != demand.fromId) {
-				currentSourceId = demand.fromId;
-				Dijkstra.createPreviousArray(graph, travelTime, currentSourceId, distance, previous);
-			}
-			
-			Arc[] shortestPath = Dijkstra.findShortestPath(graph, previous, demand.toId);
+			Arc[] shortestPath = shortestPathAlgorithm.shortestPath(graph, travelTime, demand.fromId, demand.toId);
 			
 			if (shortestPath == null) {
 				continue;
