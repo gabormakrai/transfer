@@ -19,7 +19,9 @@ public class PriorityQueueDijkstraShortestPathAlgorithm implements ShortestPathA
 		
 		int largestArcId = graph.getLargestArcId();
 		previous = new int[largestArcId + 1];
-		priorityQueueObjectArray = new PriorityQueueObject[largestArcId + 1];
+		
+		int largestNodeId = graph.getLargestNodeId();
+		priorityQueueObjectArray = new PriorityQueueObject[largestNodeId + 1];
 		for (int i = 0; i < priorityQueueObjectArray.length; ++i) {
 			priorityQueueObjectArray[i] = new PriorityQueueObject(i, Double.POSITIVE_INFINITY, 0);
 		}
