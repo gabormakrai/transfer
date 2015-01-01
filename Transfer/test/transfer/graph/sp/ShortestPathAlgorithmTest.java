@@ -2,17 +2,12 @@ package transfer.graph.sp;
 
 import static org.junit.Assert.*;
 
-import org.junit.Test;
-
 import transfer.graph.base.Arc;
 import transfer.graph.base.Graph;
-import transfer.graph.sp.dijkstra.DijkstraShortestPathAlgorithm;
 
-public class DijkstraShortestPathAlgorithmTest {
-
-	@Test
-	public void testDijkstra1() {
-		
+public class ShortestPathAlgorithmTest {
+	
+	protected Graph generateGraph() {
 		Arc[] arcArray = new Arc[] {
 			new Arc(0, 0, 1, 0, 0),
 			new Arc(1, 1, 2, 0, 0),
@@ -22,7 +17,11 @@ public class DijkstraShortestPathAlgorithmTest {
 		};
 		
 		Graph graph = new Graph(arcArray);
-						
+		
+		return graph;
+	}
+	
+	protected double[][] generateTravelTime() {
 		double[][] travelTime = new double[][] {
 			new double[] { 1.0 },
 			new double[] { 1.0, 10.0 },
@@ -30,17 +29,15 @@ public class DijkstraShortestPathAlgorithmTest {
 			new double[] { 1.0 },
 			null			
 		};
-				
-		ShortestPathAlgorithm spAlgorithm = new DijkstraShortestPathAlgorithm();
-		spAlgorithm.init(graph);
 		
-		Arc[] shortestPath = spAlgorithm.shortestPath(graph, travelTime, 0, 4);
-		
+		return travelTime;
+	}
+	
+	protected void assertResult(Arc[] shortestPath) {
 		assertTrue(shortestPath != null);
 		assertEquals(3, shortestPath.length);
 		assertEquals(0, shortestPath[0].id);
 		assertEquals(1, shortestPath[1].id);
 		assertEquals(3, shortestPath[2].id);
 	}
-
 }
