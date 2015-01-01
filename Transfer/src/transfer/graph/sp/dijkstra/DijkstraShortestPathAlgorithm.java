@@ -1,10 +1,11 @@
-package transfer.graph.sp;
+package transfer.graph.sp.dijkstra;
 
 import java.util.HashSet;
 import java.util.LinkedList;
 
 import transfer.graph.base.Arc;
 import transfer.graph.base.Graph;
+import transfer.graph.sp.ShortestPathAlgorithm;
 
 public class DijkstraShortestPathAlgorithm implements ShortestPathAlgorithm {
 	

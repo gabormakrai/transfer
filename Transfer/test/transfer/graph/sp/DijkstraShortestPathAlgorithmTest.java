@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import transfer.graph.base.Arc;
 import transfer.graph.base.Graph;
+import transfer.graph.sp.dijkstra.DijkstraShortestPathAlgorithm;
 
 public class DijkstraShortestPathAlgorithmTest {
 

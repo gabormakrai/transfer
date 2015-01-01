@@ -3,7 +3,7 @@ package transfer.tap.path;
 import org.junit.Test;
 
 import transfer.graph.base.Graph;
-import transfer.graph.sp.DijkstraShortestPathAlgorithm;
+import transfer.graph.sp.dijkstra.DijkstraShortestPathAlgorithm;
 import transfer.tap.TapTest;
 import transfer.tap.base.Demand;
 import transfer.tap.base.TapSolver;
