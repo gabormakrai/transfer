@@ -43,6 +43,8 @@ public abstract class PathBasedTap implements TapAlgorithm {
 	
 	@Override
 	public void iteration() {
+		
+		shortestPathAlgorithm.prepareForNextIteration();
 //		
 //		double pathVolume = 0.0;
 //		for (ODPaths paths : odPaths) {

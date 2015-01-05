@@ -103,6 +103,11 @@ public class DijkstraShortestPathAlgorithm implements ShortestPathAlgorithm {
 		
 		return route;
 	}
+
+	@Override
+	public void prepareForNextIteration() {
+		this.previousFromId = -1;
+	}
 	
 
 }

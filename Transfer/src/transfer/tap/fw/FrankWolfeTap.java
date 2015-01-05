@@ -51,13 +51,14 @@ public class FrankWolfeTap implements TapAlgorithm {
 	
 	@Override
 	public void iteration() {
+		
+		shortestPathAlgorithm.prepareForNextIteration();
+		
+		iteration(firstIteration);
 		if (firstIteration) {
-			// create the feasible initial solution
-			iteration(true);
 			firstIteration = false;
-		} else {
-			iteration(false);
 		}
+		
 	}
 	
 	private void iteration(boolean initial) {

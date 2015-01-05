@@ -5,5 +5,6 @@ import transfer.graph.base.Graph;
 
 public interface ShortestPathAlgorithm {
 	public void init(Graph graph);
+	public void prepareForNextIteration();
 	public Arc[] shortestPath(Graph graph, double[][] travelTime, int from, int to);
 }

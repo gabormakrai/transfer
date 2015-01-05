@@ -96,4 +96,9 @@ public class PriorityQueueDijkstraShortestPathAlgorithm implements ShortestPathA
 		}
 	}
 	
+	@Override
+	public void prepareForNextIteration() {
+		this.previousFromId = -1;
+	}	
+	
 }

@@ -33,6 +33,9 @@ public class RelativeGap implements AbstractPerformance {
 	
 	@Override
 	public double calculate() {
+		
+		shortestPathAlgorithm.prepareForNextIteration();
+		
 		calculateTravelTimes();
 		
 		double A = 0.0;
