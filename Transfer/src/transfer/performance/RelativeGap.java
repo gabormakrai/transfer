@@ -1,22 +1,18 @@
-package transfer.tap.criterion;
+package transfer.performance;
 
 import transfer.graph.base.Arc;
 import transfer.graph.base.Graph;
 import transfer.graph.sp.ShortestPathAlgorithm;
 import transfer.tap.base.Demand;
 
-public class RGapCriterion implements AbstractCriterion{
+public class RelativeGap implements AbstractPerformance {
 	
-	private final double criterionLimit;
-	private final boolean debug;
-	private final Graph graph;
-	private final Demand[] demands;
-	private final double[][] travelTime;
-	private ShortestPathAlgorithm shortestPathAlgorithm;
+	Graph graph;
+	Demand[] demands;
+	ShortestPathAlgorithm shortestPathAlgorithm;
+	double[][] travelTime; 
 	
-	public RGapCriterion(Graph graph, Demand[] demands, ShortestPathAlgorithm shortestPathAlgorithm, double criterionLimit, boolean debug) {
-		this.criterionLimit = criterionLimit;
-		this.debug = debug;
+	public RelativeGap(Graph graph, Demand[] demands, ShortestPathAlgorithm shortestPathAlgorithm) {
 		this.graph = graph;
 		this.demands = demands;
 		this.shortestPathAlgorithm = shortestPathAlgorithm;
@@ -35,33 +31,8 @@ public class RGapCriterion implements AbstractCriterion{
 		
 	}
 	
-	private void calculateTravelTimes() {
-		for (int i = 0; i < graph.arcs.length; ++i) {
-			if (graph.arcs[i] == null) {
-				continue;
-			} else {
-				for (int j = 0; j < travelTime[i].length; ++j) {
-					Arc arc = graph.arcs[i][j];
-					travelTime[i][j] = travelTime(arc.traffic, arc.freeFlowTravelTime, arc.linkCapacity);
-				}
-			}
-		}
-		
-	}
-	
 	@Override
-	public boolean check() {
-		double rgap = calculateRGap();
-		
-		if (debug) {
-			System.out.println("RGap limit: " + rgap + "/" + criterionLimit + " -> " + (rgap > criterionLimit));
-		}
-		
-		return rgap > criterionLimit;
-	}
-	
-	private double calculateRGap() {
-		
+	public double calculate() {
 		calculateTravelTimes();
 		
 		double A = 0.0;
@@ -88,8 +59,21 @@ public class RGapCriterion implements AbstractCriterion{
 		return 1.0 - A / B;
 	}
 	
+	private void calculateTravelTimes() {
+		for (int i = 0; i < graph.arcs.length; ++i) {
+			if (graph.arcs[i] == null) {
+				continue;
+			} else {
+				for (int j = 0; j < travelTime[i].length; ++j) {
+					Arc arc = graph.arcs[i][j];
+					travelTime[i][j] = travelTime(arc.traffic, arc.freeFlowTravelTime, arc.linkCapacity);
+				}
+			}
+		}
+		
+	}	
+		
 	private double travelTime(double trafficVolume, double freeFlowTravelTime, double capacity) {
 		return freeFlowTravelTime * (1.0 + 0.15 * Math.pow(trafficVolume / capacity, 4.0));
-	}
-	
+	}	
 }
