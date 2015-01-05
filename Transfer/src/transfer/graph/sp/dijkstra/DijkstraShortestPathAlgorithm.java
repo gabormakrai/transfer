@@ -28,6 +28,7 @@ public class DijkstraShortestPathAlgorithm implements ShortestPathAlgorithm {
 		
 		if (previousFromId != from) {
 			createPreviousArray(graph, travelTime, from, distance, previous);
+			previousFromId = from;
 		}
 		
 		return findShortestPath(graph, previous, to);

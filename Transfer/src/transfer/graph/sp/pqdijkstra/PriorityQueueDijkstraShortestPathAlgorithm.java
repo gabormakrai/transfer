@@ -33,6 +33,7 @@ public class PriorityQueueDijkstraShortestPathAlgorithm implements ShortestPathA
 	public Arc[] shortestPath(Graph graph, double[][] travelTime, int from, int to) {
 		if (previousFromId != from) {
 			createPreviousArray(graph, travelTime, from);
+			previousFromId = from;
 		}
 		
 		return findShortestPath(graph, to);
