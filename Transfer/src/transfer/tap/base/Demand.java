@@ -13,6 +13,6 @@ public class Demand {
 	
 	@Override
 	public String toString() {
-		return "Demand(to:" + toId + ",from:" + fromId + ",volume:" + volume + ")";
+		return "Demand(from:" + fromId + ",to:" + toId + ",volume:" + volume + ")";
 	}
 }
