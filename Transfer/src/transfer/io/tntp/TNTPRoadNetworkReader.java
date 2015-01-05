@@ -27,7 +27,7 @@ public class TNTPRoadNetworkReader {
 			boolean header = true;
 			
 			while((line = br.readLine()) != null) {
-				if (line.length() > 0 && line.charAt(0) == '~') {
+				if (line.length() > 0 && line.charAt(0) == '~' || line.trim().length() == 0) {
 					continue;
 				}
 				if (line.contains("<END OF METADATA>")) {
