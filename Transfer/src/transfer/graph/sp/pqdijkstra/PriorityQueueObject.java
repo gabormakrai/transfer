@@ -16,7 +16,7 @@ public class PriorityQueueObject implements Comparable<PriorityQueueObject>{
 		} else if (priority > o.priority) {
 			return +1;
 		} else if (o != this ) {
-			return -1;
+			return +1;
 		} else {
 			return 0;
 		}
