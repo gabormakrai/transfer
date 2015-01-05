@@ -17,6 +17,8 @@ public class FrankWolfeTap implements TapAlgorithm {
 	private double[] d;
 	
 	private double[][] travelTime;
+	
+	private boolean firstIteration;
 				
 	@Override
 	public void init(Graph graph, Demand[] demands, ShortestPathAlgorithm shortestPathAlgorithm) {
@@ -44,13 +46,18 @@ public class FrankWolfeTap implements TapAlgorithm {
 			}
 		}
 				
-		// create the feasible initial solution
-		iteration(true);
+		this.firstIteration = true;
 	}
 	
 	@Override
 	public void iteration() {
-		iteration(false);
+		if (firstIteration) {
+			// create the feasible initial solution
+			iteration(true);
+			firstIteration = false;
+		} else {
+			iteration(false);
+		}
 	}
 	
 	private void iteration(boolean initial) {
