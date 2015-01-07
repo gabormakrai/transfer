@@ -58,6 +58,10 @@ public abstract class PathBasedTap implements TapAlgorithm {
 		for (int i = 0; i < demands.length; ++i) {
 			
 			Demand demand = demands[i];
+			
+			if (demand.volume == 0.0) {
+				continue;
+			}
 						
 			Arc[] shortestPath = shortestPathAlgorithm.shortestPath(graph, travelTime, demand.fromId, demand.toId);
 			
