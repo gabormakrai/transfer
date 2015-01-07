@@ -1,5 +1,7 @@
 package transfer.performance;
 
+import java.util.Arrays;
+
 import transfer.graph.base.Arc;
 import transfer.graph.base.Graph;
 import transfer.graph.sp.ShortestPathAlgorithm;
@@ -10,7 +12,9 @@ public class RelativeGap implements AbstractPerformance {
 	Graph graph;
 	Demand[] demands;
 	ShortestPathAlgorithm shortestPathAlgorithm;
-	double[][] travelTime; 
+	double[][] travelTime;
+	double[] arrayForA;
+	double[] arrayForB;
 	
 	public RelativeGap(Graph graph, Demand[] demands, ShortestPathAlgorithm shortestPathAlgorithm) {
 		this.graph = graph;
@@ -29,6 +33,8 @@ public class RelativeGap implements AbstractPerformance {
 			}
 		}
 		
+		arrayForA = new double[demands.length];
+		arrayForB = new double[graph.arcArray.length];
 	}
 	
 	@Override
@@ -38,9 +44,13 @@ public class RelativeGap implements AbstractPerformance {
 		
 		calculateTravelTimes();
 		
-		double A = 0.0;
-		
-		for (Demand demand : demands) {
+		for (int i = 0; i < demands.length; ++i) {
+			
+			Demand demand = demands[i];
+			
+			if (demand.volume == 0.0) {
+				continue;
+			}
 			
 			Arc[] shortestPath = shortestPathAlgorithm.shortestPath(graph, travelTime, demand.fromId, demand.toId);
 			
@@ -49,14 +59,27 @@ public class RelativeGap implements AbstractPerformance {
 			}
 			
 			for (Arc arc : shortestPath) {
-				A += demand.volume * travelTime(arc.traffic, arc.freeFlowTravelTime, arc.linkCapacity);
+				double a = demand.volume * travelTime(arc.traffic, arc.freeFlowTravelTime, arc.linkCapacity);
+				arrayForA[i] += a;
 			}
 		}
+				
+		for (int i = 0; i < graph.arcArray.length; ++i) {
+			Arc arc = graph.arcArray[i];
+			double b = arc.traffic * travelTime(arc.traffic, arc.freeFlowTravelTime, arc.linkCapacity); 
+			arrayForB[i] = b;
+		}
 		
-		
+		double A = 0.0;
 		double B = 0.0;
-		for (Arc arc : graph.arcArray) {
-			B += arc.traffic * travelTime(arc.traffic, arc.freeFlowTravelTime, arc.linkCapacity); 
+		
+		Arrays.sort(arrayForA);
+		Arrays.sort(arrayForB);
+		for (double a : arrayForA) {
+			A += a;
+		}
+		for (double b : arrayForB) {
+			B += b;
 		}
 		
 		return 1.0 - A / B;
