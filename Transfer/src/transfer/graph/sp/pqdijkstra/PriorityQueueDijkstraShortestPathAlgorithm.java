@@ -63,9 +63,12 @@ public class PriorityQueueDijkstraShortestPathAlgorithm implements ShortestPathA
 
 	private void createPreviousArray(Graph graph, double[][] travelTime, int sourceId) {
 		
+		for (int i = 0; i < previous.length; ++i) {
+			previous[i] = -1;
+		}
+		
 		for (int i = 0; i < priorityQueueObjectArray.length; ++i) {
 			priorityQueueObjectArray[i].priority = Double.MAX_VALUE;
-			previous[i] = -1;
 		}
 		
 		priorityQueueObjectArray[sourceId].priority = 0.0;
