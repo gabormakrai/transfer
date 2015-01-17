@@ -78,6 +78,7 @@ public class TNTPRoadNetworkReader {
 		}
 		
 		if (arcsList.size() != numberOfLinks) {
+			System.out.println("Problem with metadata...");
 			return null;
 		} else {
 			return new Graph(arcsList.toArray(new Arc[0]));
