@@ -21,11 +21,19 @@ The original solution proposed to solve the TAP was the PE algorithm however tha
 
 ### Single source shortest path algorithms
 
+All the TAP algorithms depends on single source shortest path problem. Transfer contains several approach to solve this subproblem and all the implementations are based on *Cormen, Thomas H., Charles E. Leiserson, Ronald L. Rivest, and Clifford Stein. Introduction to algorithms. Vol. 2. Cambridge: MIT press, 2001.*. The text will refer to this book as CLRS.
+
 ##### naive Dijkstra algorithm
+
+This is the naive implementation of Dijkstra's shortest path algorithm. Pseudocode can be found in CLRS 24.3. 
 
 ##### Dijkstra algorithm with binary heap priority queue
 
+This implementation of the Dijkstra's algorithm is using binary heap priority queue which leads us to much better running time (the time complexity is O(VlogV) compared to the naive implementations' time complexity O(V^2)). Pseudocecode can be found in CLRS 24.3. 
+
 ##### Dijkstra algorithm with Fibonacci heap priority queue
+
+This implementation of the Dijsktra's algorithm is using Fibonacci heap priority queue which has better running time on highly connected graphs. Pseudocode for the Fibonacci heap can be found in CLRS 17.
 
 ### IO methods
 
