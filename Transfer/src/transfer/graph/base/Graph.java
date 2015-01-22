@@ -2,7 +2,7 @@ package transfer.graph.base;
 
 import java.util.LinkedList;
 
-public class Graph {
+public class Graph implements Cloneable{
 	
 	private final int largestArcId;
 	
@@ -11,7 +11,7 @@ public class Graph {
 	public final Arc[][] arcs;
 	
 	public final Arc[] arcArray;
-	
+		
 	public Graph(Arc[] arcArray) {
 		this.arcArray = arcArray;
 		int largestArcId = Integer.MIN_VALUE;
@@ -61,4 +61,13 @@ public class Graph {
 	public int getLargestNodeId() {
 		return largestNodeId;
 	}
+	
+	public Graph copy() {
+		Arc[] newArcArray = new Arc[arcArray.length];
+		for (int i = 0; i < newArcArray.length; ++i) {
+			newArcArray[i] = new Arc(arcArray[i]);
+		}
+		return new Graph(newArcArray);
+	}
+
 }
