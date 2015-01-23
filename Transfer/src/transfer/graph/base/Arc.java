@@ -1,6 +1,10 @@
 package transfer.graph.base;
 
-public class Arc {
+import java.io.Serializable;
+
+public class Arc implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 	
 	public final int id;
 	public final int from;

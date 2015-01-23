@@ -1,9 +1,12 @@
 package transfer.graph.base;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 
-public class Graph implements Cloneable{
+public class Graph implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+
 	private final int largestArcId;
 	
 	private final int largestNodeId;

@@ -1,6 +1,11 @@
 package transfer.tap.base;
 
-public class Demand {
+import java.io.Serializable;
+
+public class Demand implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	
 	public final int fromId;
 	public final int toId;
 	public final double volume;
